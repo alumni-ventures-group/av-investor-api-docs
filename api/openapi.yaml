@@ -1,0 +1,351 @@
+openapi: 3.0.1
+info:
+  title: dev-investor-portal-api
+  description: Api for Investor access methods
+  contact:
+    name: Tony DiTomasso
+    email: tony@avgfunds.com
+  version: "1.1"
+servers:
+- url: "{basePath}"
+  variables:
+    basePath:
+      default: /dev
+tags:
+- name: User Methods
+  description: Services to access and create users
+paths:
+  /api/user-investments:
+    get:
+      operationId: apiUser_investmentsGET
+      parameters:
+      - name: custom-header
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      security:
+      - auth: []
+      x-swagger-router-controller: Default
+    options:
+      operationId: apiUser_investmentsOPTIONS
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+      x-swagger-router-controller: Default
+  /api/login:
+    post:
+      tags:
+      - User Methods
+      summary: Login
+      description: Login investor user
+      operationId: apiLoginPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+      x-swagger-router-controller: UserMethods
+  /api/fund-investments:
+    get:
+      operationId: apiFund_investmentsGET
+      parameters:
+      - name: custom-header
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: fund-code
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: base-fund-code
+        in: query
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      security:
+      - auth: []
+      x-swagger-router-controller: Default
+    options:
+      operationId: apiFund_investmentsOPTIONS
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+      x-swagger-router-controller: Default
+  /api/logout:
+    get:
+      tags:
+      - User Methods
+      summary: Logout
+      description: Logout investor user
+      operationId: apiLogoutGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: User session specific token for authorization
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+      x-swagger-router-controller: UserMethods
+    options:
+      operationId: apiLogoutOPTIONS
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+      x-swagger-router-controller: Default
+  /api/user:
+    get:
+      operationId: apiUserGET
+      parameters:
+      - name: custom-header
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      security:
+      - auth: []
+      x-swagger-router-controller: Default
+    options:
+      operationId: apiUserOPTIONS
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+      x-swagger-router-controller: Default
+  /api/user-totals:
+    get:
+      operationId: apiUser_totalsGET
+      parameters:
+      - name: custom-header
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      security:
+      - auth: []
+      x-swagger-router-controller: Default
+    options:
+      operationId: apiUser_totalsOPTIONS
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+      x-swagger-router-controller: Default
+  /api/create-user:
+    post:
+      operationId: apiCreate_userPOST
+      security:
+      - auth: []
+      x-swagger-router-controller: Default
+    options:
+      operationId: apiCreate_userOPTIONS
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+      x-swagger-router-controller: Default
+  /api/user-messages:
+    get:
+      operationId: apiUser_messagesGET
+      parameters:
+      - name: custom-header
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      security:
+      - auth: []
+      x-swagger-router-controller: Default
+    options:
+      operationId: apiUser_messagesOPTIONS
+      responses:
+        "200":
+          description: 200 response
+          headers:
+            Access-Control-Allow-Origin:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              style: simple
+              explode: false
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              style: simple
+              explode: false
+              schema:
+                type: string
+          content: {}
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        authToken:
+          type: string
+        user:
+          type: object
+      description: Successful login response object
+      example:
+        success: true
+        authToken: authToken
+        user: {}
+    LogoutResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+      description: Successful logout response object
+      example:
+        success: true
+    LoginRequest:
+      type: object
+      properties:
+        password:
+          type: string
+        email:
+          type: string
+      description: Payload for login
+  securitySchemes:
+    auth:
+      type: apiKey
+      name: Authorization
+      in: header
+      x-amazon-apigateway-authtype: custom
