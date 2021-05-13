@@ -13,16 +13,6 @@ module.exports.apiCreate_userOPTIONS = function apiCreate_userOPTIONS (req, res,
     });
 };
 
-module.exports.apiCreate_userPOST = function apiCreate_userPOST (req, res, next) {
-  Default.apiCreate_userPOST()
-    .then(function (response) {
-      utils.writeJson(res, response);
-    })
-    .catch(function (response) {
-      utils.writeJson(res, response);
-    });
-};
-
 module.exports.apiFund_investmentsGET = function apiFund_investmentsGET (req, res, next, customHeader, fundCode, baseFundCode) {
   Default.apiFund_investmentsGET(customHeader, fundCode, baseFundCode)
     .then(function (response) {

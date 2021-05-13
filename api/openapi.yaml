@@ -5,12 +5,12 @@ info:
   contact:
     name: Tony DiTomasso
     email: tony@avgfunds.com
-  version: "1.1"
+  version: 1.2.3
 servers:
-- url: "{basePath}"
+- url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
     basePath:
-      default: /dev
+      default: dev
 tags:
 - name: User Methods
   description: Services to access and create users
@@ -132,6 +132,13 @@ paths:
       description: Logout investor user
       operationId: apiLogoutGET
       parameters:
+      - name: custom-header
+        in: header
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       - name: Authorization
         in: header
         description: User session specific token for authorization
@@ -147,6 +154,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LogoutResponse'
+      security:
+      - auth: []
       x-swagger-router-controller: UserMethods
     options:
       operationId: apiLogoutOPTIONS
@@ -247,10 +256,37 @@ paths:
       x-swagger-router-controller: Default
   /api/create-user:
     post:
+      tags:
+      - User Methods
+      summary: Login
+      description: Login investor user
       operationId: apiCreate_userPOST
-      security:
-      - auth: []
-      x-swagger-router-controller: Default
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        required: true
+      responses:
+        "200":
+          description: 200 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        "400":
+          description: 400 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400JsonResponse'
+        "500":
+          description: 500 response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500JsonResponse'
+      x-swagger-router-controller: UserMethods
     options:
       operationId: apiCreate_userOPTIONS
       responses:
@@ -313,6 +349,13 @@ paths:
       x-swagger-router-controller: Default
 components:
   schemas:
+    "400JsonResponse":
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: number
     LoginResponse:
       type: object
       properties:
@@ -335,6 +378,27 @@ components:
       description: Successful logout response object
       example:
         success: true
+    "500JsonResponse":
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: number
+    CreateUserRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+      description: Payload for creating user
     LoginRequest:
       type: object
       properties:

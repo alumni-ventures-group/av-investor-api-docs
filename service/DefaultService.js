@@ -14,17 +14,6 @@ exports.apiCreate_userOPTIONS = function() {
 
 /**
  *
- * no response value expected for this operation
- **/
-exports.apiCreate_userPOST = function() {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
-}
-
-
-/**
- *
  * customHeader String 
  * fundCode String 
  * baseFundCode String 
