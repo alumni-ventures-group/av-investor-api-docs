@@ -1,415 +1,559 @@
-openapi: 3.0.1
+openapi: "3.0.1"
 info:
-  title: dev-investor-portal-api
-  description: Api for Investor access methods
+  title: "dev-investor-portal-api"
+  description: "Api for Investor access methods"
   contact:
-    name: Tony DiTomasso
-    email: tony@avgfunds.com
-  version: 1.2.3
+    name: "Tony DiTomasso"
+    email: "tony@avgfunds.com"
+  version: "2021-09-10T17:12:34Z"
 servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
     basePath:
-      default: dev
+      default: "/dev"
 tags:
-- name: User Methods
-  description: Services to access and create users
+- name: "User Methods"
+  description: "Services to access and create users"
 paths:
-  /api/user-investments:
-    get:
-      operationId: apiUser_investmentsGET
-      parameters:
-      - name: custom-header
-        in: header
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      security:
-      - auth: []
-      x-swagger-router-controller: Default
+  /api/access-token:
+    post: {}
     options:
-      operationId: apiUser_investmentsOPTIONS
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           headers:
             Access-Control-Allow-Origin:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Methods:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Headers:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
           content: {}
-      x-swagger-router-controller: Default
+  /api/fund-investments:
+    get:
+      parameters:
+      - name: "userid"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "fund-code"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "base-fund-code"
+        in: "query"
+        required: true
+        schema:
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - auth: []
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/managed-logout:
+    get:
+      tags:
+      - "User Methods"
+      summary: "Logout"
+      description: "Logout investor user"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "User session specific token for authorization"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogoutResponse"
+      security:
+      - auth: []
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/user-tokens:
+    get:
+      tags:
+      - "User Methods"
+      summary: "AVRT Tokens"
+      description: "Get user tokens total"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "User session specific token for authorization"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400JsonResponse"
+        "500":
+          description: "500 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500JsonResponse"
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserTokensResponse"
+      security:
+      - auth: []
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/managed-login:
+    post:
+      tags:
+      - "User Methods"
+      summary: "Login"
+      description: "Login managed user"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/update-user:
+    post: {}
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/user-messages:
+    get:
+      parameters:
+      - name: "userid"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - auth: []
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/user-investments:
+    get:
+      parameters:
+      - name: "userid"
+        in: "query"
+        schema:
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
+      security:
+      - auth: []
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
   /api/login:
     post:
       tags:
-      - User Methods
-      summary: Login
-      description: Login investor user
-      operationId: apiLoginPOST
+      - "User Methods"
+      summary: "Login"
+      description: "Login investor user"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LoginRequest'
+              $ref: "#/components/schemas/LoginRequest"
         required: true
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LoginResponse'
-      x-swagger-router-controller: UserMethods
-  /api/fund-investments:
+                $ref: "#/components/schemas/UserResponse"
+  /api/basecamp-investments:
     get:
-      operationId: apiFund_investmentsGET
       parameters:
-      - name: custom-header
-        in: header
+      - name: "fund-code"
+        in: "query"
         required: true
-        style: simple
-        explode: false
         schema:
-          type: string
-      - name: fund-code
-        in: query
+          type: "string"
+      - name: "Authorization"
+        in: "header"
         required: true
-        style: form
-        explode: true
         schema:
-          type: string
-      - name: base-fund-code
-        in: query
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
+          type: "string"
       security:
       - auth: []
-      x-swagger-router-controller: Default
     options:
-      operationId: apiFund_investmentsOPTIONS
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           headers:
             Access-Control-Allow-Origin:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Methods:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Headers:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
           content: {}
-      x-swagger-router-controller: Default
+  /api/dashboard-labels:
+    get: {}
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
   /api/logout:
     get:
       tags:
-      - User Methods
-      summary: Logout
-      description: Logout investor user
-      operationId: apiLogoutGET
+      - "User Methods"
+      summary: "Logout"
+      description: "Logout investor user"
       parameters:
-      - name: custom-header
-        in: header
+      - name: "Authorization"
+        in: "header"
+        description: "User session specific token for authorization"
         required: true
-        style: simple
-        explode: false
         schema:
-          type: string
-      - name: Authorization
-        in: header
-        description: User session specific token for authorization
-        required: false
-        style: simple
-        explode: false
-        schema:
-          type: string
+          type: "string"
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LogoutResponse'
+                $ref: "#/components/schemas/LogoutResponse"
       security:
       - auth: []
-      x-swagger-router-controller: UserMethods
     options:
-      operationId: apiLogoutOPTIONS
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           headers:
             Access-Control-Allow-Origin:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Methods:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Headers:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
           content: {}
-      x-swagger-router-controller: Default
   /api/user:
     get:
-      operationId: apiUserGET
       parameters:
-      - name: custom-header
-        in: header
+      - name: "Authorization"
+        in: "header"
         required: true
-        style: simple
-        explode: false
         schema:
-          type: string
+          type: "string"
       security:
       - auth: []
-      x-swagger-router-controller: Default
     options:
-      operationId: apiUserOPTIONS
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           headers:
             Access-Control-Allow-Origin:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Methods:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Headers:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
           content: {}
-      x-swagger-router-controller: Default
   /api/user-totals:
     get:
-      operationId: apiUser_totalsGET
       parameters:
-      - name: custom-header
-        in: header
-        required: true
-        style: simple
-        explode: false
+      - name: "userid"
+        in: "query"
         schema:
-          type: string
+          type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
       security:
       - auth: []
-      x-swagger-router-controller: Default
     options:
-      operationId: apiUser_totalsOPTIONS
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           headers:
             Access-Control-Allow-Origin:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Methods:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Headers:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
           content: {}
-      x-swagger-router-controller: Default
   /api/create-user:
     post:
       tags:
-      - User Methods
-      summary: Login
-      description: Login investor user
-      operationId: apiCreate_userPOST
+      - "User Methods"
+      summary: "Create User"
+      description: "Method takes in user information and generates new user in Yii\
+        \ database."
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUserRequest'
+              $ref: "#/components/schemas/CreateUserRequest"
         required: true
       responses:
-        "200":
-          description: 200 response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LoginResponse'
         "400":
-          description: 400 response
+          description: "400 response"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/400JsonResponse'
+                $ref: "#/components/schemas/400JsonResponse"
         "500":
-          description: 500 response
+          description: "500 response"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/500JsonResponse'
-      x-swagger-router-controller: UserMethods
+                $ref: "#/components/schemas/500JsonResponse"
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
     options:
-      operationId: apiCreate_userOPTIONS
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           headers:
             Access-Control-Allow-Origin:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Methods:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Headers:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
           content: {}
-      x-swagger-router-controller: Default
-  /api/user-messages:
-    get:
-      operationId: apiUser_messagesGET
-      parameters:
-      - name: custom-header
-        in: header
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: string
-      security:
-      - auth: []
-      x-swagger-router-controller: Default
+  /api/verify-access-token:
+    get: {}
     options:
-      operationId: apiUser_messagesOPTIONS
       responses:
         "200":
-          description: 200 response
+          description: "200 response"
           headers:
             Access-Control-Allow-Origin:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Methods:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
             Access-Control-Allow-Headers:
-              style: simple
-              explode: false
               schema:
-                type: string
+                type: "string"
           content: {}
-      x-swagger-router-controller: Default
 components:
   schemas:
-    "400JsonResponse":
-      type: object
-      properties:
-        message:
-          type: string
-        statusCode:
-          type: number
-    LoginResponse:
-      type: object
+    UserResponse:
+      type: "object"
       properties:
         success:
-          type: boolean
+          type: "boolean"
         authToken:
-          type: string
+          type: "string"
         user:
-          type: object
-      description: Successful login response object
-      example:
-        success: true
-        authToken: authToken
-        user: {}
-    LogoutResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-      description: Successful logout response object
-      example:
-        success: true
-    "500JsonResponse":
-      type: object
+          type: "object"
+      description: "Successful login response object"
+    "400JsonResponse":
+      type: "object"
       properties:
         message:
-          type: string
+          type: "string"
         statusCode:
-          type: number
+          type: "number"
+    LogoutResponse:
+      type: "object"
+      properties:
+        success:
+          type: "boolean"
+      description: "Successful logout response object"
+    "500JsonResponse":
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        statusCode:
+          type: "number"
+    UserTokensResponse:
+      type: "object"
+      properties:
+        tokensTotal:
+          type: "number"
+      description: "Successful tokens response object"
     CreateUserRequest:
-      type: object
+      required:
+      - "email"
+      - "firstName"
+      - "lastName"
+      type: "object"
       properties:
         firstName:
-          type: string
+          type: "string"
         lastName:
-          type: string
+          type: "string"
         password:
-          type: string
+          type: "string"
         phone:
-          type: string
+          type: "string"
         email:
-          type: string
-      description: Payload for creating user
+          type: "string"
+      description: "Request payload for creating user"
     LoginRequest:
-      type: object
+      type: "object"
       properties:
         password:
-          type: string
+          type: "string"
         email:
-          type: string
-      description: Payload for login
+          type: "string"
+      description: "Payload for login"
   securitySchemes:
     auth:
-      type: apiKey
-      name: Authorization
-      in: header
-      x-amazon-apigateway-authtype: custom
+      type: "apiKey"
+      name: "Authorization"
+      in: "header"
+      x-amazon-apigateway-authtype: "custom"
