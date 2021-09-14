@@ -5,7 +5,7 @@ info:
   contact:
     name: "Tony DiTomasso"
     email: "tony@avgfunds.com"
-  version: "2021-09-14T16:54:26Z"
+  version: "2021-09-14T19:10:28Z"
 servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
@@ -26,6 +26,7 @@ paths:
       - name: "Authorization"
         in: "header"
         description: "User session specific token for authorization"
+        required: true
         schema:
           type: "string"
       responses:
@@ -53,6 +54,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/403JsonResponse"
+      security:
+      - auth: []
     options:
       responses:
         "200":
