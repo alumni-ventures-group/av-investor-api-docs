@@ -5,7 +5,7 @@ info:
   contact:
     name: "Tony DiTomasso"
     email: "tony@avgfunds.com"
-  version: "2021-09-10T17:12:34Z"
+  version: "2021-09-14T16:54:26Z"
 servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
@@ -16,7 +16,43 @@ tags:
   description: "Services to access and create users"
 paths:
   /api/access-token:
-    post: {}
+    post:
+      tags:
+      - "User Methods"
+      summary: "User access token"
+      description: "Creates and returns a temporary user access token based on Authorization\
+        \ header."
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        description: "User session specific token for authorization"
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserAccessTokenResponse"
+        "400":
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400JsonResponse"
+        "500":
+          description: "500 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500JsonResponse"
+        "403":
+          description: "403 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/403JsonResponse"
     options:
       responses:
         "200":
@@ -192,7 +228,84 @@ paths:
                 type: "string"
           content: {}
   /api/update-user:
-    post: {}
+    post:
+      tags:
+      - "User Methods"
+      summary: "Update User"
+      description: "Method takes in user information and generates new user in Yii\
+        \ database."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+        required: true
+      responses:
+        "400":
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400JsonResponse"
+        "500":
+          description: "500 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500JsonResponse"
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserUpdateResponse"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/reset-password:
+    post:
+      tags:
+      - "User Methods"
+      summary: "Reset password"
+      description: "Initiates the reset password process for the specified user by\
+        \ email if the user exists in the system."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResetPasswordRequest"
+        required: true
+      responses:
+        "400":
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400JsonResponse"
+        "500":
+          description: "500 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500JsonResponse"
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OnlySuccessResponse"
     options:
       responses:
         "200":
@@ -371,12 +484,36 @@ paths:
           content: {}
   /api/user:
     get:
+      tags:
+      - "User Methods"
+      summary: "Get User"
+      description: "Get user data and confirm authentication"
       parameters:
       - name: "Authorization"
         in: "header"
+        description: "User session specific token for authorization"
         required: true
         schema:
           type: "string"
+      responses:
+        "400":
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400JsonResponse"
+        "500":
+          description: "500 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500JsonResponse"
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
       security:
       - auth: []
     options:
@@ -471,7 +608,84 @@ paths:
                 type: "string"
           content: {}
   /api/verify-access-token:
-    get: {}
+    get:
+      tags:
+      - "User Methods"
+      summary: "Verify user access token"
+      description: "Takes a temporary user access token and verifies that it is valid\
+        \ then returns the corresponding user."
+      parameters:
+      - name: "uat"
+        in: "query"
+        description: "User access token"
+        schema:
+          type: "string"
+      responses:
+        "500":
+          description: "500 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500JsonResponse"
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "403":
+          description: "403 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/403JsonResponse"
+    options:
+      responses:
+        "200":
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+            Access-Control-Allow-Methods:
+              schema:
+                type: "string"
+            Access-Control-Allow-Headers:
+              schema:
+                type: "string"
+          content: {}
+  /api/update-password:
+    post:
+      tags:
+      - "User Methods"
+      summary: "Update User Password"
+      description: "Method takes in user's old password, new password, and password\
+        \ confirmation and updates the user's password."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePasswordRequest"
+        required: true
+      responses:
+        "400":
+          description: "400 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/400JsonResponse"
+        "500":
+          description: "500 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/500JsonResponse"
+        "200":
+          description: "200 response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PasswordUpdateResponse"
     options:
       responses:
         "200":
@@ -489,16 +703,6 @@ paths:
           content: {}
 components:
   schemas:
-    UserResponse:
-      type: "object"
-      properties:
-        success:
-          type: "boolean"
-        authToken:
-          type: "string"
-        user:
-          type: "object"
-      description: "Successful login response object"
     "400JsonResponse":
       type: "object"
       properties:
@@ -519,12 +723,73 @@ components:
           type: "string"
         statusCode:
           type: "number"
+    "403JsonResponse":
+      type: "object"
+      properties:
+        message:
+          type: "string"
+        statusCode:
+          type: "number"
     UserTokensResponse:
       type: "object"
       properties:
         tokensTotal:
           type: "number"
       description: "Successful tokens response object"
+    UserUpdateResponse:
+      type: "object"
+      properties:
+        success:
+          type: "boolean"
+        user:
+          type: "object"
+      description: "Successful user update response object"
+    LoginRequest:
+      type: "object"
+      properties:
+        password:
+          type: "string"
+        email:
+          type: "string"
+      description: "Payload for login"
+    UserAccessTokenResponse:
+      type: "object"
+      properties:
+        accesstoken:
+          type: "string"
+      description: "Successful access tokens response"
+    UserResponse:
+      type: "object"
+      properties:
+        success:
+          type: "boolean"
+        authToken:
+          type: "string"
+        links:
+          type: "object"
+        user:
+          type: "object"
+      description: "Successful login response object"
+    ResetPasswordRequest:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+      description: "Request payload for reset password"
+    UpdatePasswordRequest:
+      required:
+      - "confirmPassword"
+      - "newPassword"
+      - "oldPassword"
+      type: "object"
+      properties:
+        oldPassword:
+          type: "string"
+        newPassword:
+          type: "string"
+        confirmPassword:
+          type: "string"
+      description: "Payload for password update"
     CreateUserRequest:
       required:
       - "email"
@@ -543,14 +808,54 @@ components:
         email:
           type: "string"
       description: "Request payload for creating user"
-    LoginRequest:
+    PasswordUpdateResponse:
       type: "object"
       properties:
-        password:
+        success:
+          type: "boolean"
+        message:
           type: "string"
-        email:
+      description: "Successful password update response object"
+    OnlySuccessResponse:
+      type: "object"
+      properties:
+        success:
+          type: "boolean"
+      description: "Response object with success boolean only"
+    UpdateUserRequest:
+      required:
+      - "id"
+      type: "object"
+      properties:
+        lastName:
           type: "string"
-      description: "Payload for login"
+        country:
+          type: "string"
+        address2:
+          type: "string"
+        city:
+          type: "string"
+        address1:
+          type: "string"
+        homePhone:
+          type: "string"
+        email2:
+          type: "string"
+        firstName:
+          type: "string"
+        email1:
+          type: "string"
+        province:
+          type: "string"
+        mobilePhone:
+          type: "string"
+        middleName:
+          type: "string"
+        id:
+          type: "number"
+        state:
+          type: "string"
+      description: "Request payload for updating user"
   securitySchemes:
     auth:
       type: "apiKey"
