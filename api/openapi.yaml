@@ -5,7 +5,7 @@ info:
   contact:
     name: "Tony DiTomasso"
     email: "tony@avgfunds.com"
-  version: "2021-09-14T19:10:28Z"
+  version: "2021-09-15T14:41:59Z"
 servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
@@ -19,7 +19,7 @@ paths:
     post:
       tags:
       - "User Methods"
-      summary: "User access token"
+      summary: "Create user access token"
       description: "Creates and returns a temporary user access token based on Authorization\
         \ header."
       parameters:
@@ -237,6 +237,12 @@ paths:
       summary: "Update User"
       description: "Method takes in user information and generates new user in Yii\
         \ database."
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
       requestBody:
         content:
           application/json:
@@ -262,6 +268,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserUpdateResponse"
+      security:
+      - auth: []
     options:
       responses:
         "200":
@@ -664,6 +672,12 @@ paths:
       summary: "Update User Password"
       description: "Method takes in user's old password, new password, and password\
         \ confirmation and updates the user's password."
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
       requestBody:
         content:
           application/json:
@@ -689,6 +703,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PasswordUpdateResponse"
+      security:
+      - auth: []
     options:
       responses:
         "200":
