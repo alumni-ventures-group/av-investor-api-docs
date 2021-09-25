@@ -5,12 +5,12 @@ info:
   contact:
     name: "Tony DiTomasso"
     email: "tony@avgfunds.com"
-  version: "2021-09-15T14:41:59Z"
+  version: "2021-09-24T20:15:51Z"
 servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
     basePath:
-      default: "dev"
+      default: "/dev"
 tags:
 - name: "User Methods"
   description: "Services to access and create users"
@@ -858,6 +858,10 @@ components:
           type: "string"
         homePhone:
           type: "string"
+        postalCode:
+          type: "number"
+        nameSuffix:
+          type: "string"
         email2:
           type: "string"
         firstName:
@@ -868,6 +872,8 @@ components:
           type: "string"
         mobilePhone:
           type: "string"
+        k1Consent:
+          type: "number"
         middleName:
           type: "string"
         id:
