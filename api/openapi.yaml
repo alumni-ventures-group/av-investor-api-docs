@@ -5,12 +5,12 @@ info:
   contact:
     name: "Tony DiTomasso"
     email: "tony@avgfunds.com"
-  version: "2021-09-14T19:10:28Z"
+  version: "2021-09-24T20:15:51Z"
 servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
     basePath:
-      default: "dev"
+      default: "/dev"
 tags:
 - name: "User Methods"
   description: "Services to access and create users"
@@ -19,7 +19,7 @@ paths:
     post:
       tags:
       - "User Methods"
-      summary: "User access token"
+      summary: "Create user access token"
       description: "Creates and returns a temporary user access token based on Authorization\
         \ header."
       parameters:
@@ -237,6 +237,12 @@ paths:
       summary: "Update User"
       description: "Method takes in user information and generates new user in Yii\
         \ database."
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
       requestBody:
         content:
           application/json:
@@ -262,6 +268,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserUpdateResponse"
+      security:
+      - auth: []
     options:
       responses:
         "200":
@@ -664,6 +672,12 @@ paths:
       summary: "Update User Password"
       description: "Method takes in user's old password, new password, and password\
         \ confirmation and updates the user's password."
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: true
+        schema:
+          type: "string"
       requestBody:
         content:
           application/json:
@@ -689,6 +703,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PasswordUpdateResponse"
+      security:
+      - auth: []
     options:
       responses:
         "200":
@@ -842,6 +858,10 @@ components:
           type: "string"
         homePhone:
           type: "string"
+        postalCode:
+          type: "number"
+        nameSuffix:
+          type: "string"
         email2:
           type: "string"
         firstName:
@@ -852,6 +872,8 @@ components:
           type: "string"
         mobilePhone:
           type: "string"
+        k1Consent:
+          type: "number"
         middleName:
           type: "string"
         id:
