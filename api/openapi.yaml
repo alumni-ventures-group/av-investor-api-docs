@@ -5,7 +5,7 @@ info:
   contact:
     name: "Tony DiTomasso"
     email: "tony@avgfunds.com"
-  version: "2021-09-24T20:15:51Z"
+  version: "2021-10-04T16:19:08Z"
 servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
@@ -859,7 +859,7 @@ components:
         homePhone:
           type: "string"
         postalCode:
-          type: "number"
+          type: "string"
         nameSuffix:
           type: "string"
         email2:
