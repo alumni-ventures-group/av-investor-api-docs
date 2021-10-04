@@ -10,7 +10,7 @@ servers:
 - url: "https://e56bxipr3d.execute-api.us-east-1.amazonaws.com/{basePath}"
   variables:
     basePath:
-      default: "/dev"
+      default: "dev"
 tags:
 - name: "User Methods"
   description: "Services to access and create users"
